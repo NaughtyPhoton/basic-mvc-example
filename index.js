@@ -1,11 +1,6 @@
 // Import stylesheets
 import './style.css';
 
-// Write Javascript code!
-const appDiv = document.getElementById('app');
-appDiv.innerHTML = `<h1>JS Starter</h1>`;
-
-
 class MutableNumberModel {
   constructor(value) {
     this.value = value;
@@ -40,16 +35,15 @@ class MutableNumberController {
       () => this.model.increment()
     );
 
-    this.view.registerDecerementCallback(
+    this.view.registerDecrementCallback(
       () => this.model.decrement()
     );
   }
 }
 
 class MutableNumberView {
-  constructor(model, controller) {
+  constructor(model) {
     this.model = model;
-    this.controller = controller;
   }
 
   registerIncrementCallback(onIncremenetCallback) {
@@ -73,13 +67,11 @@ class MutableNumberView {
     this.incrementButton.textContent = '+';
     this.decrementButton.textContent = '-';
 
-    this.incrementButton.onclick(
-      () => this.onIncremenetCallback()
-    );
+    this.incrementButton.onclick =
+      () => this.onIncremenetCallback();
 
-    this.decrementButton.onclick(
-      () => this.onDecrementCallback()
-    );
+    this.decrementButton.onclick =
+      () => this.onDecrementCallback();
 
     this.container.appendChild(this.numberSpan);
     this.container.appendChild(this.incrementButton);
@@ -90,3 +82,11 @@ class MutableNumberView {
     return this.container
   }
 }
+
+
+
+const model = new MutableNumberModel(5);
+const view = new MutableNumberView(model);
+const controller = new MutableNumberController(model, view);
+
+document.body.appendChild(view.renderInitial());
